@@ -38,14 +38,18 @@ module.exports = {
         const targetUser = await interaction.guild.members.fetch(targetUserId);
 
         if (!targetUser) {
-            await interaction.editReply("That user doesn't exist in this server.");
+            await interaction.editReply({
+                content: "That user was not found in this server.",
+                ephemeral: true
+            });
             return;
         }
 
         if (targetUser.id === interaction.guild.ownerId) {
-            await interaction.editReply(
-                "You can't kick that user because they're the server owner."
-            );
+            await interaction.editReply({
+                content: "You can't kick that user because they're the server owner.",
+                ephemeral: true
+            });
             return;
         }
 
@@ -54,24 +58,38 @@ module.exports = {
         const botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
         if (targetUserRolePosition >= requestUserRolePosition) {
-            await interaction.editReply(
-                "You can't kick that user because they have the same/higher role than you."
-            );
+            await interaction.editReply({
+                content: "You can't ban that user because their role priority is equal or higher than yours.",
+                ephemeral: true
+            });
             return;
         }
 
         if (targetUserRolePosition >= botRolePosition) {
-            await interaction.editReply(
-                "I can't kick that user because they have the same/higher role than me."
-            );
+            await interaction.editReply({
+                content: "I can't ban that user because their role priority is equal or higher than mine.",
+                ephemeral: true
+            });
             return;
         }
 
         try {
-            await targetUser.kick({ reason });
-            await interaction.editReply(
-                `User ${targetUser} was kicked\nReason: ${reason}`
-            );
+            await targetUser.ban({ reason });
+
+            const kickEmbed = new EmbedBuilder()
+                .setTitle("Kick result")
+                .addFields(
+                    { name: "Target:", value: `\`${targetUser.user.tag}\``, inline: true },
+                    { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
+                    { name: "Reason:", value: `${reason}`, inline: false })
+                .setThumbnail(targetUser.displayAvatarURL());
+
+            await interaction.editReply({
+                content: `${targetUser} was successfully kicked from this server.`,
+                ephemeral: true
+            });
+
+            interaction.channel.send({ embeds: [kickEmbed] });
         } catch (err) {
             Logger.Error(`[ERROR] There was an issue kicking a member: ${err}`);
         }

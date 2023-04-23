@@ -1,4 +1,5 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, } = require('discord.js');
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder } = require('@discordjs/builders');
 const Logger = require("../Logger");
   
 module.exports = {
@@ -32,19 +33,25 @@ module.exports = {
         const targetUserId = interaction.options.get('target').value;
         const reason = interaction.options.get('reason')?.value || 'No reason provided.';
 
-        await interaction.deferReply();
+        await interaction.deferReply({
+            ephemeral: true
+        });
 
         const targetUser = await interaction.guild.members.fetch(targetUserId);
 
         if (!targetUser) {
-            await interaction.editReply("That user doesn't exist in this server.");
+            await interaction.editReply({
+                content: "That user was not found in this server.",
+                ephemeral: true
+            });
             return;
         }
 
         if (targetUser.id === interaction.guild.ownerId) {
-            await interaction.editReply(
-                "You can't ban that user because they're the server owner."
-            );
+            await interaction.editReply({
+                content: "You can't ban that user because they're the server owner.",
+                ephemeral: true
+            });
             return;
         }
 
@@ -53,24 +60,38 @@ module.exports = {
         const botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
         if (targetUserRolePosition >= requestUserRolePosition) {
-            await interaction.editReply(
-                "You can't ban that user because they have the same/higher role than you."
-            );
+            await interaction.editReply({
+                content: "You can't ban that user because their role priority is equal or higher than yours.",
+                ephemeral: true
+            });
             return;
         }
 
         if (targetUserRolePosition >= botRolePosition) {
-            await interaction.editReply(
-                "I can't ban that user because they have the same/higher role than me."
-            );
+            await interaction.editReply({
+                content: "I can't ban that user because their role priority is equal or higher than mine.",
+                ephemeral: true
+            });
             return;
         }
 
         try {
             await targetUser.ban({ reason });
-            await interaction.editReply(
-                `User ${targetUser} was banned\nReason: ${reason}`
-            );
+
+            const banEmbed = new EmbedBuilder()
+                .setTitle("Ban result")
+                .addFields(
+                    { name: "Target:", value: `\`${targetUser.user.tag}\``, inline: true },
+                    { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
+                    { name: "Reason:", value: `${reason}`, inline: false })
+                .setThumbnail(targetUser.displayAvatarURL());
+
+            await interaction.editReply({
+                content: `${targetUser} was successfully banned from this server.`,
+                ephemeral: true
+            });
+
+            interaction.channel.send({ embeds: [banEmbed] });
         } catch (err) {
             Logger.Error(`[ERROR] There was an issue banning a member: ${err}`);
         }
