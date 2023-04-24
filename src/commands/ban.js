@@ -41,7 +41,7 @@ module.exports = {
 
         if (!targetUser) {
             await interaction.editReply({
-                content: "That user was not found in this server.",
+                content: "Error: That user was not found in this server.",
                 ephemeral: true
             });
             return;
@@ -49,7 +49,7 @@ module.exports = {
 
         if (targetUser.id === interaction.guild.ownerId) {
             await interaction.editReply({
-                content: "You can't ban that user because they're the server owner.",
+                content: "Error: You can't ban that user because they're the server owner.",
                 ephemeral: true
             });
             return;
@@ -61,7 +61,7 @@ module.exports = {
 
         if (targetUserRolePosition >= requestUserRolePosition) {
             await interaction.editReply({
-                content: "You can't ban that user because their role priority is equal or higher than yours.",
+                content: "Error: You can't ban that user because their role priority is equal or higher than yours.",
                 ephemeral: true
             });
             return;
@@ -69,7 +69,7 @@ module.exports = {
 
         if (targetUserRolePosition >= botRolePosition) {
             await interaction.editReply({
-                content: "I can't ban that user because their role priority is equal or higher than mine.",
+                content: "Error: I can't ban that user because their role priority is equal or higher than mine.",
                 ephemeral: true
             });
             return;

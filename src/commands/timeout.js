@@ -45,7 +45,7 @@ module.exports = {
         var duration = interaction.options.get("duration").value;
         const reason = interaction.options.get("reason")?.value || "No reason provided.";
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         const member = await interaction.guild.members.fetch(user);
         if (!member) {
@@ -55,6 +55,7 @@ module.exports = {
 
         if (member.user.bot) {
             await interaction.editReply({ content: "Error: I can't timeout a bot", ephemeral: true });
+            return;
         }
 
         duration = ms(duration);
@@ -73,9 +74,21 @@ module.exports = {
 
         const staffRolePosition = interaction.member.roles.highest.position;
         const targetRolePosition = member.roles.highest.position;
+        const botRolePosition = interaction.guild.members.me.roles.highest.position; // Highest role of the bot
 
         if (targetRolePosition >= staffRolePosition) {
-            await interaction.editReply({ content: "You can't perform this action on a user with a higher or equal priority to yours", ephemeral: true });
+            await interaction.editReply({
+                content: "Error: You can't ban that user because their role priority is equal or higher than yours.",
+                ephemeral: true
+            });
+            return;
+        }
+
+        if (targetRolePosition >= botRolePosition) {
+            await interaction.editReply({
+                content: "Error: You can't ban that user because their role priority is equal or higher than mine.",
+                ephemeral: true
+            });
             return;
         }
 
@@ -83,17 +96,18 @@ module.exports = {
             const { default: prettyMs } = await import('pretty-ms');
 
             await member.timeout(duration, reason);
-            await interaction.editReply({ content: `You put ${member} in timeout for ${duration}` });
+            await interaction.editReply({ content: `You put ${member} in timeout for ${duration}`, ephemeral: true });
 
             if (enableLogChannel) {
                 const channel = interaction.guild.channels.fetch("1099396020892336208");
                 const embed = new EmbedBuilder()
-                    .setTitle("Timeout")
+                    .setTitle("Timeout result")
                     .addFields(
-                        { name: "Target", value: "`"+member.username+"#"+member.discriminator+"`", inline: true },
+                        { name: "Target:", value: `\`${user.tag}\``, inline: true },
+                        { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
                         { name: "Duration", value: "`"+prettyMs(duration)+"`", inline: true },
-                        { name: "Reason", value: "`"+duration+"`" })
-                    .addFooter({ text: interaction.member.username+"#"+interaction.member.discriminator, iconURL: interaction.member.displayAvatarURL() })
+                        { name: "Reason:", value: `${reason}`, inline: false })
+                    .setThumbnail(targetUser.displayAvatarURL())
                     .setColor("#383231");
 
                 channel.send({ embeds: [ embed ] })
