@@ -11,7 +11,7 @@ module.exports = {
             if (!command)
                 return interaction.reply({ content: `Invalid command: ${interaction.commandName}`, ephemeral: true});
             
-            Logger.Info(`[INFO] Command '${interaction.commandName}' is being executed by ${interaction.user.tag}`);
+            Logger.Info(`[INFO] ${interaction.user.tag} issued bot command '${interaction.commandName}'`);
             command.execute(interaction, client);
         }
     }
