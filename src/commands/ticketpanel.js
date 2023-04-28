@@ -47,6 +47,8 @@ module.exports = {
             .setTitle("Support Channel")
             .setDescription("You opened this support ticket. Please explain your issue and wait for a staff member to reply.");
 
+            Logger.Info(`[TICKETS] A new ticket has been created by ${i.user.tag}`);
+
             channel.send({ content: `${i.user},`, embeds: [welcomeEmbed] });
             i.user.send(`Your ticket in **${i.guild.name}** has been successfully created in **${channel}**`).catch(err => { return; });
         })
