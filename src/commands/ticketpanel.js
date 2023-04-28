@@ -21,7 +21,7 @@ module.exports = {
         )
 
         const embed = new EmbedBuilder()
-        .setColor('#5865F2')
+        .setColor(0x5865F2)
         .setTitle("Open a Ticket")
         .setDescription("If you need support or you need to talk to the staff, click the button below to open a ticket.");
 
@@ -34,7 +34,7 @@ module.exports = {
             await i.update({ embeds: [embed], components: [button] });
 
             const channel = await interaction.guild.channels.create({
-                name: `ticket-${i.user.tag.toLowerCase()}`,
+                name: `ticket-${i.user.tag}`,
                 type: ChannelType.GuildText,
                 parent: '1100864752697233439'
             });
@@ -43,12 +43,12 @@ module.exports = {
             channel.permissionOverwrites.create(channel.guild.roles.everyone, { ViewChannel: false, SendMessages: false });
 
             const welcomeEmbed = new EmbedBuilder()
-            .setColor('#5865F2')
+            .setColor(0x5865F2)
             .setTitle("Support Channel")
             .setDescription("You opened this support ticket. Please explain your issue and wait for a staff member to reply.");
 
             channel.send({ content: `${i.user},`, embeds: [welcomeEmbed] });
-            i.user.send(`Your ticket in **${i.guild.name}** has been successfully created in **${i.channel}**`);
+            i.user.send(`Your ticket in **${i.guild.name}** has been successfully created in **${channel}**`).catch(err => { return; });
         })
     }
 }
