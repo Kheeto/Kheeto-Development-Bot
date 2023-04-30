@@ -107,8 +107,7 @@ module.exports = {
                         { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
                         { name: "Duration", value: "`"+prettyMs(duration)+"`", inline: true },
                         { name: "Reason:", value: `${reason}`, inline: false })
-                    .setThumbnail(targetUser.displayAvatarURL())
-                    .setColor("#383231");
+                    .setThumbnail(targetUser.displayAvatarURL());
 
                 channel.send({ embeds: [ embed ] })
             }
