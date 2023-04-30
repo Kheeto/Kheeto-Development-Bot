@@ -1,0 +1,27 @@
+{
+    "title": "Example embed",
+    "description": "This is just a test!",
+    "color": 16711680,
+    "url": "",
+    "author": {
+        "name": "",
+        "icon_url": "",
+        "url": ""
+    },
+    "thumbnail": {
+        "url": ""
+    },
+    "fields": [
+        {
+            "name": "How does this work?",
+            "value:": "The /embed command loads an embed from a JSON file",
+            "inline": false
+        }
+    ],
+    "image": "",
+    "timestamp": "",
+    "footer": {
+        "text:": "[INFO] This embed was sent via the /embed command",
+        "icon_url": ""
+    }
+}
