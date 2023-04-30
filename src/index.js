@@ -24,7 +24,7 @@ async function main() {
             loadCommands(client);
         });
     } catch(err) { return Logger.Error("[ERROR] There was an issue while starting the bot: " + err )}
-    Logger.Info("[SETUP] No issue was encountered during start up");
+    Logger.Info("[SETUP] Successfully logged into Discord");
 }
 
 main();
