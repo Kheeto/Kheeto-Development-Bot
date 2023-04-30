@@ -13,7 +13,7 @@ module.exports = {
         const role = interaction.guild.roles.cache.find(role => role.id == "");
         if (!role) {
             const errorEmbed = new EmbedBuilder()
-            .setTitle("An error occured")
+            .setTitle("Verification not available")
             .setDescription("Member verification is disabled in this server.")
             .setColor(0xf21b07);
 
@@ -25,7 +25,7 @@ module.exports = {
 
         if (member.roles.cache.has(role.id)) {
             const errorEmbed = new EmbedBuilder()
-            .setTitle("An error occured")
+            .setTitle("Verification not available")
             .setDescription("You are already verified within this server!")
             .setColor(0xf21b07);
 
