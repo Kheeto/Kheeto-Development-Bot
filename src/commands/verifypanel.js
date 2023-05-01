@@ -15,7 +15,7 @@ module.exports = {
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-            .setCustomId('button')
+            .setCustomId('verifyButton')
             .setLabel('Verify yourself')
             .setStyle(ButtonStyle.Success),
         )
@@ -26,42 +26,5 @@ module.exports = {
         .setDescription("Click the button below to verify your account and access the server channels.");
 
         await interaction.reply({ embeds: [embed], components: [button] });
-
-        const collector = await interaction.channel.createMessageComponentCollector();
-
-        collector.on('collect', async i =>
-        {
-            const role = i.guild.roles.cache.find(role => role.id == "");
-            if (!role) {
-                const errorEmbed = new EmbedBuilder()
-                .setTitle("Verification not available")
-                .setDescription("Member verification is disabled in this server.")
-                .setColor(0xf21b07);
-    
-                await i.reply({ embeds: [errorEmbed], ephemeral: true })
-                return;
-            }
-    
-            const member = i.member;
-    
-            if (member.roles.cache.has(role.id)) {
-                const errorEmbed = new EmbedBuilder()
-                .setTitle("Verification not available")
-                .setDescription("You are already verified within this server!")
-                .setColor(0xf21b07);
-    
-                await i.reply({ embeds: [errorEmbed], ephemeral: true })
-                return;
-            }
-    
-            member.roles.add(role);
-    
-            const verifiedEmbed = new EmbedBuilder()
-            .setTitle("Verified")
-            .setDescription("You are now verified within this server!")
-            .setColor(0x32a852);
-    
-            await i.reply({ embeds: [verifiedEmbed], ephemeral: true });
-        })
     }
 }

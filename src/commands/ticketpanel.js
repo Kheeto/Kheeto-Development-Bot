@@ -15,7 +15,7 @@ module.exports = {
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
-            .setCustomId('button')
+            .setCustomId('openTicket')
             .setLabel('Create a Ticket')
             .setStyle(ButtonStyle.Primary),
         )
@@ -26,31 +26,5 @@ module.exports = {
         .setDescription("If you need support or you need to talk to the staff, click the button below to open a ticket.");
 
         await interaction.reply({ embeds: [embed], components: [button] });
-
-        const collector = await interaction.channel.createMessageComponentCollector();
-
-        collector.on('collect', async i =>
-        {
-            await i.update({ embeds: [embed], components: [button] });
-
-            const channel = await interaction.guild.channels.create({
-                name: `ticket-${i.user.tag}`,
-                type: ChannelType.GuildText,
-                parent: '1100864752697233439'
-            });
-
-            channel.permissionOverwrites.create(i.user.id, { ViewChannel: true, SendMessages: true });
-            channel.permissionOverwrites.create(channel.guild.roles.everyone, { ViewChannel: false, SendMessages: false });
-
-            const welcomeEmbed = new EmbedBuilder()
-            .setColor(0x5865F2)
-            .setTitle("Support Channel")
-            .setDescription("You opened this support ticket. Please explain your issue and wait for a staff member to reply.");
-
-            Logger.Info(`[TICKETS] A new ticket has been created by ${i.user.tag}`);
-
-            channel.send({ content: `${i.user},`, embeds: [welcomeEmbed] });
-            i.user.send(`Your ticket in **${i.guild.name}** has been successfully created in **${channel}**`).catch(err => { return; });
-        })
     }
 }
