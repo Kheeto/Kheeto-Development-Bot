@@ -1,0 +1,37 @@
+{
+    "title": "Forum - Introduction and FAQ",
+    "description": "The forum is a place where you can ask other members for support, but can you can also post a guide/documentation, or just start a discussion.\nIf you want to get support from our staff you can open a ticket instead.",
+    "color": 5793266,
+    "url": "",
+    "author": {
+        "name": "",
+        "icon_url": "",
+        "url": ""
+    },
+    "thumbnail": {
+        "url": ""
+    },
+    "fields": [
+        {
+            "name": "A quick reminder",
+            "value:": "Before creating a post, check if there is already another one on the same topic, if you don't find a solution to your problem you can create your own post.",
+            "inline": false
+        },
+        {
+            "name": "Should i use the forum or open a ticket?",
+            "value:": "We suggest posting in this forum first, and if you still don't find a way to fix your problem you can open a ticket and ask our staff directly.",
+            "inline": false
+        },
+        {
+            "name": "Why shouldn't i always use tickets?",
+            "value:": "Tickets can only be made for issues directly related to our service, while the forum can be used to create any kind of post.",
+            "inline": false
+        }
+    ],
+    "image": "",
+    "timestamp": "",
+    "footer": {
+        "text:": "",
+        "icon_url": ""
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "title": "Share your server log",
+    "description": "The server log can help finding a lot of information about what is happening in your server, and can help us finding the issue and helping you to fix it.\nMake sure you paste the full log",
+    "color": 5793266,
+    "url": "",
+    "author": {
+        "name": "",
+        "icon_url": "",
+        "url": ""
+    },
+    "thumbnail": {
+        "url": ""
+    },
+    "fields": [
+        {
+            "name": "Where can i find my server log?",
+            "value:": "Go to your server directory and look for the logs folder, then select the latest.log",
+            "inline": false
+        },
+        {
+            "name": "You can use this free website to share your log",
+            "value:": "*https://pastebin.com*",
+            "inline": false
+        }
+    ],
+    "image": "",
+    "timestamp": "",
+    "footer": {
+        "text:": "This embed was sent by a staff member, you can open a ticket for further information.",
+        "icon_url": ""
+    }
+}

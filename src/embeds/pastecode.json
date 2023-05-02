@@ -1,0 +1,27 @@
+{
+    "title": "Share your code",
+    "description": "If you send us your code it will be much easier for us to find the issue and help you.",
+    "color": 5793266,
+    "url": "",
+    "author": {
+        "name": "",
+        "icon_url": "",
+        "url": ""
+    },
+    "thumbnail": {
+        "url": ""
+    },
+    "fields": [
+        {
+            "name": "You can use this free website",
+            "value:": "*https://pastebin.com*",
+            "inline": false
+        }
+    ],
+    "image": "",
+    "timestamp": "",
+    "footer": {
+        "text:": "This embed was sent by a staff member, you can open a ticket for further information.",
+        "icon_url": ""
+    }
+}

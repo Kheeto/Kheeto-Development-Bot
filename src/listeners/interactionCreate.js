@@ -1,6 +1,6 @@
 const Logger = require("../Logger");
-const { CommandInteraction, PermissionFlagsBits, ChannelType } = require('discord.js');
-const { EmbedBuilder } = require('@discordjs/builders');
+const { CommandInteraction, PermissionFlagsBits, ChannelType, ButtonStyle, TextChannel, TextInputStyle } = require('discord.js');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ModalBuilder, TextInputBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'interactionCreate',
@@ -19,13 +19,11 @@ module.exports = {
 
         // Button interactions
         if (interaction.isButton()) {
-            const { guild, member, customId, channel } = interaction;
-            const { ViewChannel, SendMessages, ManageChannels, ReadMessageHistory } = PermissionFlagsBits;
-            const ticketId = Math.floor(Math.random() * 10000);
-
+            const { customId } = interaction;
             try {
-                // Ticket panel
-                if (customId == "openTicket") {
+                // Ticket panel - Create a ticket
+                if (customId == "openTicket")
+                {
                     const channel = await interaction.guild.channels.create({
                         name: `ticket-${interaction.user.tag}`,
                         type: ChannelType.GuildText,
@@ -35,6 +33,14 @@ module.exports = {
                     channel.permissionOverwrites.create(interaction.user.id, { ViewChannel: true, SendMessages: true });
                     channel.permissionOverwrites.create(channel.guild.roles.everyone, { ViewChannel: false, SendMessages: false });
         
+                    const button = new ActionRowBuilder()
+                    .addComponents(
+                        new ButtonBuilder()
+                        .setCustomId('closeTicket')
+                        .setLabel('Close ticket')
+                        .setStyle(ButtonStyle.Secondary),
+                    )
+
                     const welcomeEmbed = new EmbedBuilder()
                     .setColor(0x5865F2)
                     .setTitle("Support Channel")
@@ -42,8 +48,46 @@ module.exports = {
         
                     Logger.Info(`[TICKETS] A new ticket has been created by ${interaction.user.tag}`);
         
-                    channel.send({ content: `${interaction.user},`, embeds: [welcomeEmbed] });
+                    channel.send({ content: `${interaction.user},`, embeds: [welcomeEmbed], components: [button] });
                     interaction.reply({ content: `Your ticket has been successfully created in **${channel}**`, ephemeral: true });
+                }
+                // Ticket panel - Close a ticket
+                else if (customId == "closeTicket")
+                {
+                    const button = new ActionRowBuilder()
+                    .addComponents(
+                        new ButtonBuilder()
+                        .setCustomId('closeTicketConfirm')
+                        .setLabel('Close ticket')
+                        .setStyle(ButtonStyle.Danger),
+                    )
+            
+                    const embed = new EmbedBuilder()
+                    .setColor(0x5865F2)
+                    .setTitle("Confirmation")
+                    .setDescription("Please confirm that you want to close this ticket.");
+            
+                    interaction.reply({ embeds: [embed], components: [button] });
+                }
+                // Ticket panel - Close a ticket (confirm)
+                else if (customId == "closeTicketConfirm")
+                {
+                    const reasonModal = new ModalBuilder()
+                    .setTitle("Close Ticket")
+                    .setCustomId("closeTicketReason")
+                    .setComponents(
+                        new ActionRowBuilder().setComponents(
+                            new TextInputBuilder()
+                            .setLabel("Reason")
+                            .setCustomId("reason")
+                            .setPlaceholder("Why are you closing this ticket?")
+                            .setRequired(true)
+                            .setStyle(TextInputStyle.Paragraph)
+                            .setMaxLength(200)
+                        )
+                    )
+
+                    interaction.showModal(reasonModal);
                 }
                 // Verification panel
                 else if (customId == "verifyButton")
@@ -83,6 +127,33 @@ module.exports = {
             }
             catch (err) {
                 return Logger.Error("[ERR] An error occured while performing a button interaction: " + err);
+            }
+        }
+
+        // Modals
+        if (interaction.isModalSubmit()) {
+            const { customId } = interaction;
+            try {
+                // Closing a ticket (getting reason via modal)
+                if (customId == "closeTicketReason") {
+                    const reason = interaction.fields.getTextInputValue("reason");
+                    const closeEmbed = new EmbedBuilder()
+                    .setColor(0x5865F2)
+                    .setTitle("Ticket closed")
+                    .addFields(
+                        { name: "Ticket name", value: `\`${interaction.channel.name}\``, inline: true },
+                        { name: "Closed by", value: `\`${interaction.user.tag}\``, inline: true },
+                        { name: "Reason", value: `\`${reason}\``, inline: false }
+                    )
+                    .setTimestamp();
+
+                    await interaction.guild.channels.cache.get("1103002360910971081").send({ embeds: [closeEmbed] });
+                    await interaction.channel.delete();
+                    await interaction.reply({ content: 'The ticket has been successfully closed.' })
+                }
+            }
+            catch (err) {
+                return Logger.Error("[ERR] An error occured while handling a modal: " + err);
             }
         }
     }

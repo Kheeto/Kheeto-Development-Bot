@@ -10,7 +10,7 @@ module.exports = {
         client.user.setPresence({
             activities: [
                 {
-                    name: "/help",
+                    name: "kheeto.dev",
                     type: ActivityType.Watching
                 }
             ],
