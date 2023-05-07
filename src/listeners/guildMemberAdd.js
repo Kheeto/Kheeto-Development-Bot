@@ -11,7 +11,7 @@ module.exports = {
         if (autoRolesEnabled) {
             Logger.Info(`[AUTOROLES] Adding join auto roles to ${member.user.tag}`);
             autoRolesList.forEach(async (role) => {
-                Logger.Info(`[AUTOROLES] Adding role ${member.guild.roles.cache.get(role).name} to ${member.user.tag}`);
+                //Logger.Info(`[AUTOROLES] Adding role ${member.guild.roles.cache.get(role).name} to ${member.user.tag}`);
                 await member.roles.add(role);
             });
         }
