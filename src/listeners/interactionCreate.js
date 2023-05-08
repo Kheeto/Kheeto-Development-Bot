@@ -143,7 +143,7 @@ module.exports = {
                     .addFields(
                         { name: "Ticket name", value: `\`${interaction.channel.name}\``, inline: true },
                         { name: "Closed by", value: `\`${interaction.user.tag}\``, inline: true },
-                        { name: "Reason", value: `\`${reason}\``, inline: false }
+                        { name: "Reason", value: `\`\`\`\n${reason}\`\`\``, inline: false }
                     )
                     .setTimestamp();
 
