@@ -2,6 +2,8 @@ const Logger = require("../Logger");
 const { CommandInteraction, PermissionFlagsBits, ChannelType, ButtonStyle, TextChannel, TextInputStyle } = require('discord.js');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ModalBuilder, TextInputBuilder } = require('@discordjs/builders');
 
+const ticketSupportRole = '1099340524818800660';
+
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction, client)
@@ -31,6 +33,7 @@ module.exports = {
                     });
         
                     channel.permissionOverwrites.create(interaction.user.id, { ViewChannel: true, SendMessages: true });
+                    channel.permissionOverwrites.create(channel.guild.roles.cache.find(r => r.id == ticketSupportRole), { ViewChannel: true, SendMessages: true });
                     channel.permissionOverwrites.create(channel.guild.roles.everyone, { ViewChannel: false, SendMessages: false });
         
                     const button = new ActionRowBuilder()
