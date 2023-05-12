@@ -1,4 +1,5 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, } = require('discord.js');
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { EmbedBuilder } = require("@discordjs/builders");
 const Logger = require("../Logger");
 
 module.exports = {
@@ -17,8 +18,7 @@ module.exports = {
         type: ApplicationCommandOptionType.String,
     },
     ],
-    permissionsRequired: [PermissionFlagsBits.KickMembers],
-    botPermissions: [PermissionFlagsBits.KickMembers],
+    defaultMemberPermissions: [PermissionFlagsBits.KickMembers],
     /**
      * @param {Client} client
      * @param {Interaction} interaction

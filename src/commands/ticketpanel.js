@@ -1,9 +1,10 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
-const { ButtonStyle, ChannelType, PermissionsBitField } = require('discord.js');
+const { ButtonStyle, ChannelType, PermissionsBitField, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     name: "ticketpanel",
     description: "Create a new ticket panel in the current channel.",
+    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

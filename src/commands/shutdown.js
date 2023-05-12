@@ -5,7 +5,7 @@ const Logger = require("../Logger");
 module.exports = {
     name: "shutdown",
     description: "Shuts down the bot",
-    permissionsRequired: [PermissionFlagsBits.ManageGuild],
+    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

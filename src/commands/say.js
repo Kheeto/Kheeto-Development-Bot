@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { ApplicationCommandOptionType, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
 
 module.exports = {
     name: "say",
@@ -11,8 +11,7 @@ module.exports = {
             required: true,
         }
     ],
-    permissionsRequired: [PermissionFlagsBits.ModerateMembers],
-    botPermissions: [PermissionFlagsBits.ModerateMembers],
+    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

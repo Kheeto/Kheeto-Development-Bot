@@ -4,7 +4,8 @@ const fs = require("fs");
 const Logger = require("../Logger");
 const ms = require("ms");
 
-const enableLogChannel = false;
+const logChannelEnabled = false;
+const logChannelID = "1099396020892336208";
 
 module.exports = {
     name: "timeout",
@@ -29,8 +30,7 @@ module.exports = {
             required: false,
         }
     ],
-    permissionsRequired: [PermissionFlagsBits.ModerateMembers],
-    botPermissions: [PermissionFlagsBits.ModerateMembers],
+    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
@@ -96,20 +96,23 @@ module.exports = {
             const { default: prettyMs } = await import('pretty-ms');
 
             await member.timeout(duration, reason);
-            await interaction.editReply({ content: `You put ${member} in timeout for ${duration}`, ephemeral: true });
+            await interaction.editReply({ content: `You put ${member} in timeout for ${prettyMs(duration)}`, ephemeral: true });
 
-            if (enableLogChannel) {
-                const channel = interaction.guild.channels.fetch("1099396020892336208");
-                const embed = new EmbedBuilder()
-                    .setTitle("Timeout result")
-                    .addFields(
-                        { name: "Target:", value: `\`${user.tag}\``, inline: true },
-                        { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
-                        { name: "Duration", value: "`"+prettyMs(duration)+"`", inline: true },
-                        { name: "Reason:", value: `${reason}`, inline: false })
-                    .setThumbnail(targetUser.displayAvatarURL());
+            const embed = new EmbedBuilder()
+            .setTitle("Timeout result")
+            .addFields(
+                { name: "Target:", value: `\`${member.user.tag}\``, inline: true },
+                { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
+                { name: "Duration", value: "`"+prettyMs(duration)+"`", inline: true },
+                { name: "Reason:", value: `${reason}`, inline: false })
+            .setThumbnail(member.displayAvatarURL());
 
+            if (logChannelEnabled) {
+                const channel = interaction.guild.channels.fetch(logChannelID);
                 channel.send({ embeds: [ embed ] })
+            }
+            else {
+                await interaction.channel.send({ embeds: [ embed ] });
             }
         }
         catch (err)

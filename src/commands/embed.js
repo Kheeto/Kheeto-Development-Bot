@@ -15,7 +15,7 @@ module.exports = {
             required: true,
         }
     ],
-    permissionsRequired: [PermissionFlagsBits.ManageGuild],
+    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

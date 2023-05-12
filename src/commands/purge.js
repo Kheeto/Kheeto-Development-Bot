@@ -12,8 +12,7 @@ module.exports = {
             required: true,
         }
     ],
-    permissionsRequired: [PermissionFlagsBits.ManageMessages],
-    botPermissions: [PermissionFlagsBits.ManageMessages],
+    defaultMemberPermissions: [PermissionFlagsBits.ManageMessages],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
