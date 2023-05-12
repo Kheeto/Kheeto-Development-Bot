@@ -2,6 +2,9 @@ const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits }
 const { EmbedBuilder } = require("@discordjs/builders");
 const Logger = require("../Logger");
 
+const logChannelEnabled = false;
+const logChannelID = "1099396020892336208";
+
 module.exports = {
     name: 'kick',
     description: 'Kick a member from this server.',
@@ -86,7 +89,15 @@ module.exports = {
                 ephemeral: true
             });
 
-            interaction.channel.send({ embeds: [kickEmbed] });
+            if (logChannelEnabled) {
+                const channel = interaction.guild.channels.fetch(logChannelID);
+                channel.send({ embeds: [ kickEmbed ] })
+            }
+            else {
+                interaction.channel.send({ embeds: [kickEmbed] });
+            }
+
+            // Kick the user
             await targetUser.kick({ reason });
         } catch (err) {
             Logger.Error(`[ERROR] There was an issue kicking a member: ${err}`);

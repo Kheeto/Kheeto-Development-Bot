@@ -1,7 +1,10 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
 const Logger = require("../Logger");
-  
+
+const logChannelEnabled = false;
+const logChannelID = "1099396020892336208";
+
 module.exports = {
     name: 'ban',
     description: 'Ban a member from this server.',
@@ -73,8 +76,6 @@ module.exports = {
         }
 
         try {
-            await targetUser.ban({ reason });
-
             const banEmbed = new EmbedBuilder()
                 .setTitle("Ban result")
                 .addFields(
@@ -88,7 +89,16 @@ module.exports = {
                 ephemeral: true
             });
 
-            interaction.channel.send({ embeds: [banEmbed] });
+            if (logChannelEnabled) {
+                const channel = interaction.guild.channels.fetch(logChannelID);
+                channel.send({ embeds: [ banEmbed ] })
+            }
+            else {
+                interaction.channel.send({ embeds: [banEmbed] });
+            }
+
+            // Ban the user
+            await targetUser.ban({ reason });
         } catch (err) {
             Logger.Error(`[ERROR] There was an issue banning a member: ${err}`);
         }
