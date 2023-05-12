@@ -32,9 +32,7 @@ module.exports = {
         const targetUserId = interaction.options.get('target').value;
         const reason = interaction.options.get('reason')?.value || 'No reason provided.';
 
-        await interaction.deferReply({
-            ephemeral: true
-        });
+        await interaction.deferReply({ ephemeral: true });
 
         const targetUser = await interaction.guild.members.fetch(targetUserId);
 

@@ -32,7 +32,7 @@ module.exports = {
         const targetUserId = interaction.options.get('target').value;
         const reason = interaction.options.get('reason')?.value || 'No reason provided.';
 
-        await interaction.deferReply();
+        await interaction.deferReply({ ephemeral: true });
 
         const targetUser = await interaction.guild.members.fetch(targetUserId);
 
@@ -73,8 +73,6 @@ module.exports = {
         }
 
         try {
-            await targetUser.ban({ reason });
-
             const kickEmbed = new EmbedBuilder()
                 .setTitle("Kick result")
                 .addFields(
@@ -89,6 +87,7 @@ module.exports = {
             });
 
             interaction.channel.send({ embeds: [kickEmbed] });
+            await targetUser.kick({ reason });
         } catch (err) {
             Logger.Error(`[ERROR] There was an issue kicking a member: ${err}`);
         }
