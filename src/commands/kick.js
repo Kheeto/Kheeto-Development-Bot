@@ -1,9 +1,7 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { EmbedBuilder } = require("@discordjs/builders");
 const Logger = require("../Logger");
-
-const logChannelEnabled = false;
-const logChannelID = "1099396020892336208";
+const { moderationLogEnabled, moderationLogChannel, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
     name: 'kick',
@@ -89,12 +87,12 @@ module.exports = {
                 ephemeral: true
             });
 
-            if (logChannelEnabled) {
-                const channel = interaction.guild.channels.fetch(logChannelID);
-                channel.send({ embeds: [ kickEmbed ] })
+            if (moderationLogEnabled) {
+                const channel = interaction.guild.channels.fetch(moderationLogChannel);
+                await channel.send({ embeds: [ kickEmbed ] })
             }
-            else {
-                interaction.channel.send({ embeds: [kickEmbed] });
+            if (!moderationLogEnabled || moderationSendInBothChannels) {
+                await interaction.channel.send({ embeds: [kickEmbed] });
             }
 
             // Kick the user

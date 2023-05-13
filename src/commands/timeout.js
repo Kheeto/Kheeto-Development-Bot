@@ -3,9 +3,7 @@ const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.j
 const fs = require("fs");
 const Logger = require("../Logger");
 const ms = require("ms");
-
-const logChannelEnabled = false;
-const logChannelID = "1099396020892336208";
+const { moderationLogEnabled, moderationLogChannel, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
     name: "timeout",
@@ -107,11 +105,11 @@ module.exports = {
                 { name: "Reason:", value: `${reason}`, inline: false })
             .setThumbnail(member.displayAvatarURL());
 
-            if (logChannelEnabled) {
-                const channel = interaction.guild.channels.fetch(logChannelID);
-                channel.send({ embeds: [ embed ] })
+            if (moderationLogEnabled) {
+                const channel = interaction.guild.channels.fetch(moderationLogChannel);
+                await channel.send({ embeds: [ embed ] })
             }
-            else {
+            if (!moderationLogEnabled || moderationSendInBothChannels) {
                 await interaction.channel.send({ embeds: [ embed ] });
             }
         }
