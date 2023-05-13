@@ -17,5 +17,6 @@
 
     "moderationLogEnabled": false,
     "moderationLogChannel": "",
-    "moderationSendInBothChannels": false
+    "moderationSendInBothChannels": false,
+    "moderationLogPurge": true
 }

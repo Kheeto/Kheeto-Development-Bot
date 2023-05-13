@@ -1,5 +1,6 @@
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
+const { moderationLogEnabled, moderationLogChannel, moderationLogPurge } = require("../../config/config.json");
 
 module.exports = {
     name: "purge",
@@ -30,5 +31,18 @@ module.exports = {
         .setDescription(`${size} messages have been deleted`);
 
         await interaction.reply({ embeds: [ purgeEmbed ], ephemeral: true });
+
+        if (moderationLogEnabled && moderationLogPurge) {
+            const purgeLogEmbed = new EmbedBuilder()
+            .setTitle("Purge result")
+            .addFields([
+                { name: "Message amount:", value: `\`${size} messages\``, inline: true },
+                { name: "Moderator:", value: `\`${interaction.member.user.tag}\``, inline: true }
+            ])
+            .setThumbnail(interaction.member.displayAvatarURL());
+
+            const channel = interaction.guild.channels.fetch(moderationLogChannel);
+            await channel.send({ embeds: [ purgeLogEmbed ] })
+        }
     }
 }
