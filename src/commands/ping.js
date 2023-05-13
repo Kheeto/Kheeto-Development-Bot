@@ -4,8 +4,6 @@ const fs = require("fs");
 const Logger = require("../Logger");
 const ms = require("ms");
 
-const enableLogChannel = false;
-
 module.exports = {
     name: "ping",
     description: "Returns the bot latency in ms",

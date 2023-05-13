@@ -18,5 +18,7 @@
     "moderationLogEnabled": false,
     "moderationLogChannel": "",
     "moderationSendInBothChannels": false,
-    "moderationLogPurge": true
+    "moderationLogPurge": true,
+
+    "enableShutdownCommand": true
 }

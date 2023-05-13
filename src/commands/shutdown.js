@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const Logger = require("../Logger");
+const { enableShutdownCommand } = require("../../config/config.json");
 
 module.exports = {
     name: "shutdown",
@@ -12,6 +13,16 @@ module.exports = {
      */
     execute: async (interaction, client) =>
     {
+        if (!enableShutdownCommand) {
+            const disabledEmbed = new EmbedBuilder()
+            .setTitle("Shutdown unavailable")
+            .setDescription("This command was disabled in the bot config.")
+            .setColor(0xf21b07);
+
+            await interaction.reply({ embeds: [disabledEmbed], ephemeral: true });
+            return;
+        }
+
         await interaction.deferReply({ ephemeral: true});
 
         const embed = new EmbedBuilder()
