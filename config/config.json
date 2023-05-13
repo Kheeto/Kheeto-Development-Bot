@@ -1,0 +1,17 @@
+{
+    "statusText": "kheeto.dev",
+    "statusType": "online",
+
+    "welcomeMessageEnabled": false,
+    "welcomeMessageChannel": "",
+    "leaveMessageEnabled": false,
+    "leaveMessageChannel": "",
+
+    "autoRolesEnabled": false,
+    "autoRolesList": [""],
+
+    "ticketSystemEnabled": true,
+    "ticketSupportRole": "",
+
+    "verificationRoleId": ""
+}

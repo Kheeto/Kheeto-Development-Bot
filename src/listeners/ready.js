@@ -1,5 +1,6 @@
 const Logger = require("../Logger");
 const { ActivityType } = require('discord.js');
+const { statusText, statusType } = require('../../config/config.json');
 
 module.exports = {
     name: 'ready',
@@ -10,11 +11,11 @@ module.exports = {
         client.user.setPresence({
             activities: [
                 {
-                    name: "kheeto.dev",
+                    name: statusText,
                     type: ActivityType.Watching
                 }
             ],
-            status: "online",
+            status: statusType,
         });
         Logger.Success(`[INFO] Bot is now online! Logged in as ${client.user.username}`);
     },

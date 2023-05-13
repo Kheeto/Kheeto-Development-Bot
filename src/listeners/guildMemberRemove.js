@@ -1,8 +1,6 @@
 const Logger = require("../Logger");
 const { EmbedBuilder } = require("@discordjs/builders");
-
-const leaveMessageEnabled = false;
-const leaveMessageChannel = "";
+const { leaveMessageChannel, leaveMessageEnabled } = require("../../config/config.json");
 
 module.exports = {
     name: 'guildMemberRemove',

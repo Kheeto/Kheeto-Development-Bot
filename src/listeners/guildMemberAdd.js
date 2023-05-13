@@ -1,11 +1,6 @@
 const Logger = require("../Logger");
 const { EmbedBuilder } = require("@discordjs/builders");
-
-const autoRolesEnabled = false;
-const autoRolesList = [""];
-
-const welcomeMessageEnabled = false;
-const welcomeMessageChannel = "";
+const { autoRolesEnabled, autoRolesList, welcomeMessageEnabled, welcomeMessageChannel } = require("../../config/config.json");
 
 module.exports = {
     name: 'guildMemberAdd',

@@ -1,8 +1,7 @@
 const Logger = require("../Logger");
 const { CommandInteraction, PermissionFlagsBits, ChannelType, ButtonStyle, TextChannel, TextInputStyle } = require('discord.js');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ModalBuilder, TextInputBuilder } = require('@discordjs/builders');
-
-const ticketSupportRole = '1099340524818800660';
+const { ticketSystemEnabled, ticketSupportRole, verificationRoleId } = require("../../config/config.json");
 
 module.exports = {
     name: 'interactionCreate',
@@ -23,9 +22,19 @@ module.exports = {
         if (interaction.isButton()) {
             const { customId } = interaction;
             try {
+                const ticketDisabledEmbed = new EmbedBuilder()
+                .setTitle("Ticket system unavailable")
+                .setDescription("Tickets are disabled in the bot config, you can ask the bot owner/developer to enable them.")
+                .setColor(0xf21b07);
+
                 // Ticket panel - Create a ticket
                 if (customId == "openTicket")
                 {
+                    if (!ticketSystemEnabled) {
+                        await interaction.reply({ embeds: [ticketDisabledEmbed] });
+                        return;
+                    }
+
                     const channel = await interaction.guild.channels.create({
                         name: `ticket-${interaction.user.tag}`,
                         type: ChannelType.GuildText,
@@ -57,6 +66,11 @@ module.exports = {
                 // Ticket panel - Close a ticket
                 else if (customId == "closeTicket")
                 {
+                    if (!ticketSystemEnabled) {
+                        await interaction.reply({ embeds: [ticketDisabledEmbed] });
+                        return;
+                    }
+
                     const button = new ActionRowBuilder()
                     .addComponents(
                         new ButtonBuilder()
@@ -75,6 +89,11 @@ module.exports = {
                 // Ticket panel - Close a ticket (confirm)
                 else if (customId == "closeTicketConfirm")
                 {
+                    if (!ticketSystemEnabled) {
+                        await interaction.reply({ embeds: [ticketDisabledEmbed] });
+                        return;
+                    }
+
                     const reasonModal = new ModalBuilder()
                     .setTitle("Close Ticket")
                     .setCustomId("closeTicketReason")
@@ -95,7 +114,7 @@ module.exports = {
                 // Verification panel
                 else if (customId == "verifyButton")
                 {
-                    const role = interaction.guild.roles.cache.find(role => role.id == "");
+                    const role = interaction.guild.roles.cache.find(role => role.id == verificationRoleId);
                     if (!role) {
                         const errorEmbed = new EmbedBuilder()
                         .setTitle("Verification not available")
@@ -139,6 +158,11 @@ module.exports = {
             try {
                 // Closing a ticket (getting reason via modal)
                 if (customId == "closeTicketReason") {
+                    if (!ticketSystemEnabled) {
+                        await interaction.reply({ embeds: [ticketDisabledEmbed] });
+                        return;
+                    }
+
                     const reason = interaction.fields.getTextInputValue("reason");
                     const closeEmbed = new EmbedBuilder()
                     .setColor(0x5865F2)
