@@ -22,6 +22,6 @@
 
     "enableShutdownCommand": true,
 
-    "actionLogEnabled": false,
-    "actionLogChannel": ""
+    "actionLogEnabled": true,
+    "actionLogChannel": "1099396020892336208"
 }

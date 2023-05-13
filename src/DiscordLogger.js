@@ -1,3 +1,4 @@
+const { TextChannel } = require("discord.js");
 const { actionLogEnabled, actionLogChannel } = require("../config/config.json");
 const Default = actionLogChannel; // Default action log channel ID
 
