@@ -1,10 +1,12 @@
-const DefaultLog = ""; // Action log channel ID
+const { actionLogEnabled, actionLogChannel } = require("../config/config.json");
+const Default = actionLogChannel; // Default action log channel ID
 
-async function LogEmbed(logChannel, embed) {
+async function Log(logChannel, embed) {
+    if (!actionLogEnabled) return;
     await logChannel.send({ embeds: [embed] });
 }
 
 module.exports = {
-    DefaultLog,
-    LogEmbed,
+    Default,
+    Log,
 }
