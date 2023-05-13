@@ -80,7 +80,8 @@ module.exports = {
                     { name: "Target:", value: `\`${targetUser.user.tag}\``, inline: true },
                     { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
                     { name: "Reason:", value: `${reason}`, inline: false })
-                .setThumbnail(targetUser.displayAvatarURL());
+                .setThumbnail(targetUser.displayAvatarURL())
+                .setTimestamp();
 
             await interaction.editReply({
                 content: `${targetUser} was successfully banned from this server.`,

@@ -103,7 +103,8 @@ module.exports = {
                 { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
                 { name: "Duration", value: "`"+prettyMs(duration)+"`", inline: true },
                 { name: "Reason:", value: `${reason}`, inline: false })
-            .setThumbnail(member.displayAvatarURL());
+            .setThumbnail(member.displayAvatarURL())
+            .setTimestamp();
 
             if (moderationLogEnabled) {
                 const channel = interaction.guild.channels.fetch(moderationLogChannel);

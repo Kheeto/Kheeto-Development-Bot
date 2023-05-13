@@ -22,7 +22,8 @@ module.exports = {
             .addFields(
                 { name: "Client ping", value: "`"+ping+"ms`", inline: true },
                 { name: "Websocket ping", value: "`"+client.ws.ping+"ms`", inline: true })
-            .setFooter({ text: "Command executed by " + interaction.user.tag, iconURL: interaction.user.displayAvatarURL() });
+            .setFooter({ text: "Command executed by " + interaction.user.tag, iconURL: interaction.user.displayAvatarURL() })
+            .setTimestamp();
 
         interaction.editReply({ embeds: [pingEmbed] });
     }

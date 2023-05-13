@@ -38,7 +38,8 @@ module.exports = {
         const verifiedEmbed = new EmbedBuilder()
         .setTitle("Verified")
         .setDescription("You are now verified within this server!")
-        .setColor(0x32a852);
+        .setColor(0x32a852)
+        .setTimestamp();
 
         await interaction.reply({ embeds: [verifiedEmbed], ephemeral: true });
     }

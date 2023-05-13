@@ -28,7 +28,8 @@ module.exports = {
 
         const purgeEmbed = new EmbedBuilder()
         .setTitle("Purge result")
-        .setDescription(`${size} messages have been deleted`);
+        .setDescription(`${size} messages have been deleted`)
+        .setTimestamp();
 
         await interaction.reply({ embeds: [ purgeEmbed ], ephemeral: true });
 
@@ -39,7 +40,8 @@ module.exports = {
                 { name: "Message amount:", value: `\`${size} messages\``, inline: true },
                 { name: "Moderator:", value: `\`${interaction.member.user.tag}\``, inline: true }
             ])
-            .setThumbnail(interaction.member.displayAvatarURL());
+            .setThumbnail(interaction.member.displayAvatarURL())
+            .setTimestamp();
 
             const channel = interaction.guild.channels.fetch(moderationLogChannel);
             await channel.send({ embeds: [ purgeLogEmbed ] })

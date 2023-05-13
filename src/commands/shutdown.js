@@ -28,7 +28,8 @@ module.exports = {
         const embed = new EmbedBuilder()
         .setColor(0x7289DA)
         .setTitle("Shutdown")
-        .setDescription("Your bot has been successfully shut down.");
+        .setDescription("Your bot has been successfully shut down.")
+        .setTimestamp();
 
         setTimeout(async () => {
             await interaction.editReply({ content: "", embeds: [embed] });
