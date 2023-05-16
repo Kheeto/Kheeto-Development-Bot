@@ -22,8 +22,6 @@ module.exports = {
             logEmbed.addFields({ name: "Name", value: `\`${newEmoji.name}\``, inline: true });
         }
 
-        logEmbed.addFields({ name: "Author", value: `\`${newEmoji.fetchAuthor().tag}\``, inline: true });
-
         if (newEmoji.animated) {
             logEmbed.addFields({ name: "Animated", value: `\`${newEmoji.animated}\``, inline: true });
         }
