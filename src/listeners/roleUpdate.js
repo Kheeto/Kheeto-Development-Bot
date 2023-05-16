@@ -14,10 +14,16 @@ module.exports = {
         // General updates
         if (oldRole.name != newRole.name) {
             logEmbed.addFields([
-                { name: "Old name", value: `\`${oldChannel.name}\``, inline: true },
-                { name: "New name", value: `\`${newChannel.name}\``, inline: true }
+                { name: "Old name", value: `\`${oldRole.name}\``, inline: true },
+                { name: "New name", value: `\`${newRole.name}\``, inline: true }
             ]);
         }
+        else {
+            logEmbed.addFields([
+                { name: "Role name", value: `\`${newRole.name}\``, inline: true },
+            ]);
+        }
+
         if (oldRole.hexColor != newRole.hexColor) {
             logEmbed.addFields([
                 { name: "Old color", value: `\`${oldRole.hexColor}\``, inline: true },
@@ -48,7 +54,7 @@ module.exports = {
         }
 
         // Send the log embed
-        const channel = newChannel.guild.channels.cache.find(c => c.id == DiscordLogger.Default);
+        const channel = newRole.guild.channels.cache.find(c => c.id == DiscordLogger.Default);
         await DiscordLogger.Log(channel, logEmbed);
     }
 }
