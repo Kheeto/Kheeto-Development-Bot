@@ -1,7 +1,7 @@
 const Logger = require("../Logger");
 const { CommandInteraction, PermissionFlagsBits, ChannelType, ButtonStyle, TextChannel, TextInputStyle } = require('discord.js');
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ModalBuilder, TextInputBuilder } = require('@discordjs/builders');
-const { ticketSystemEnabled, ticketSupportRole, verificationRoleId } = require("../../config/config.json");
+const { ticketSystemEnabled, ticketSupportRole, ticketLogChannel, verificationRoleId } = require("../../config/config.json");
 
 module.exports = {
     name: 'interactionCreate',
@@ -174,7 +174,7 @@ module.exports = {
                     )
                     .setTimestamp();
 
-                    await interaction.guild.channels.cache.get("1103002360910971081").send({ embeds: [closeEmbed] });
+                    await interaction.guild.channels.cache.get(ticketLogChannel).send({ embeds: [closeEmbed] });
                     await interaction.channel.delete();
                     await interaction.reply({ content: 'The ticket has been successfully closed.' })
                 }

@@ -12,6 +12,7 @@
 
     "ticketSystemEnabled": true,
     "ticketSupportRole": "",
+    "ticketLogChannel": "1103002360910971081",
 
     "verificationRoleId": "",
 
