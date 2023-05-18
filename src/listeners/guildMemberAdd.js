@@ -1,4 +1,5 @@
 const Logger = require("../Logger");
+const DiscordLogger = require("../DiscordLogger");
 const { EmbedBuilder } = require("@discordjs/builders");
 const { autoRolesEnabled, autoRolesList, welcomeMessageEnabled, welcomeMessageChannel } = require("../../config/config.json");
 
@@ -26,6 +27,21 @@ module.exports = {
 
             const channel = member.guild.channels.cache.find(c => c.id == welcomeMessageChannel);
             await channel.send({ embeds: [welcomeEmbed] });
+        }
+
+        // Log bot addition
+        if (member.user.bot) {
+            const botEmbed = new EmbedBuilder()
+            .setTitle("Bot was added")
+            .setColor(0x42f5d4)
+            .setThumbnail(member.user.displayAvatarURL())
+            .setTimestamp()
+            .addFields([
+                { name: "Bot name", value: member.user.tag, inline: true }
+            ])
+
+            const logChannel = member.guild.channels.cache.find(c => c.id == DiscordLogger.Default);
+            await DiscordLogger.Log(logChannel, botEmbed);
         }
     }
 }
