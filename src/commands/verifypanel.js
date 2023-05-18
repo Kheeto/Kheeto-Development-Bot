@@ -26,6 +26,7 @@ module.exports = {
         .setTitle("Verifying")
         .setDescription("Click the button below to verify your account and access the server channels.");
 
-        await interaction.reply({ embeds: [embed], components: [button] });
+        await interaction.channel.send({ embeds: [embed], components: [button] });
+        await interaction.reply({ content: "Successfully created a new verification panel!", ephemeral: true });
     }
 }

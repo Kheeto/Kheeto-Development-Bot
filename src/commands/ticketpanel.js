@@ -26,6 +26,7 @@ module.exports = {
         .setTitle("Open a Ticket")
         .setDescription("If you need support or you need to talk to the staff, click the button below to open a ticket.");
 
-        await interaction.reply({ embeds: [embed], components: [button] });
+        await interaction.channel.send({ embeds: [embed], components: [button] });
+        await interaction.reply({ content: "Successfully created a new ticket panel!", ephemeral: true });
     }
 }
