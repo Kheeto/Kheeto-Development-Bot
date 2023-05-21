@@ -4,20 +4,9 @@ const Logger = require("./Logger");
 const { Client, GatewayIntentBits, Routes, Collection } = require("discord.js");
 const { REST } = require("@discordjs/rest");
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+const { handleErrors } = require("./handlers/errorHandler");
 const { loadCommands } = require("./handlers/commandHandler");
 const { loadEvents } = require("./handlers/eventHandler");
-const Process = require('node:process');
-
-// Error handling
-Process.on('unhandledRejection', async (reason, promise) => {
-    Logger.Error(`Unhandled rejection at: ${promise}, reason: ${reason}`);
-});
-Process.on('uncaughtException', (err) => {
-    Logger.Error(`Uncaught exception: ${err}`);
-});
-Process.on('uncaughtExceptionMonitor', (err, origin) => {
-    Logger.Error('Uncaught exception monitor', err, origin);
-});
 
 const client = new Client({
     intents: [
@@ -34,6 +23,7 @@ client.commands = new Collection();
 async function main() {
     try {
         Logger.Info("[SETUP] Starting the bot...");
+        handleErrors();
         client.login(process.env.TOKEN).then(() => {
             loadEvents(client);
             loadCommands(client);
