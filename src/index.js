@@ -7,6 +7,12 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 const { loadCommands } = require("./handlers/commandHandler");
 const { loadEvents } = require("./handlers/eventHandler");
 
+const process = require('node:process');
+
+process.on('unhandledRejection', async (reason, promise) => {
+    Logger.Error(`Unhandled rejection at: ${promise}, reason: ${reason}`);
+})
+
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
