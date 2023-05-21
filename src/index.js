@@ -6,12 +6,18 @@ const { REST } = require("@discordjs/rest");
 const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 const { loadCommands } = require("./handlers/commandHandler");
 const { loadEvents } = require("./handlers/eventHandler");
+const Process = require('node:process');
 
-const process = require('node:process');
-
-process.on('unhandledRejection', async (reason, promise) => {
+// Error handling
+Process.on('unhandledRejection', async (reason, promise) => {
     Logger.Error(`Unhandled rejection at: ${promise}, reason: ${reason}`);
-})
+});
+Process.on('uncaughtException', (err) => {
+    Logger.Error(`Uncaught exception: ${err}`);
+});
+Process.on('uncaughtExceptionMonitor', (err, origin) => {
+    Logger.Error('Uncaught exception monitor', err, origin);
+});
 
 const client = new Client({
     intents: [
