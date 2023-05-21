@@ -1,7 +1,7 @@
 const Logger = require("../Logger");
 const process = require("node:process");
 
-async function handleErrors()
+function handleErrors()
 {
     // Error handling (prevent the bot from crashing)
     process.on('unhandledRejection', async (reason, promise) => {
