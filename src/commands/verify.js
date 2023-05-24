@@ -10,6 +10,15 @@ module.exports = {
      */
     execute: async (interaction, client) =>
     {
+        if (!interaction.inGuild()) {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle("An error occurred")
+            .setDescription("This command can only be executed in a guild.")
+            .setColor(0xf21b07);
+            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            return;
+        }
+
         const role = interaction.guild.roles.cache.find(role => role.id == "");
         if (!role) {
             const errorEmbed = new EmbedBuilder()

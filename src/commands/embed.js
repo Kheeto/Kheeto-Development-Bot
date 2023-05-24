@@ -20,7 +20,17 @@ module.exports = {
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-    execute: async (interaction, client) => {
+    execute: async (interaction, client) =>
+    {
+        if (!interaction.inGuild()) {
+            const errorEmbed = new EmbedBuilder()
+            .setTitle("An error occurred")
+            .setDescription("This command can only be executed in a guild.")
+            .setColor(0xf21b07);
+            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            return;
+        }
+        
         const name = interaction.options.get("name").value;
 
         if (!name.includes(".json")) {
@@ -38,7 +48,7 @@ module.exports = {
             }
         }
         catch (err) {
-            Logger.Error(err);
+            Logger.Error(err.stack);
         }
 
         const embed = new EmbedBuilder();

@@ -23,9 +23,14 @@ module.exports = {
      * @param {Client} client
      * @param {Interaction} interaction
      */
-    execute: async (interaction, client) => {
+    execute: async (interaction, client) =>
+    {
         if (!interaction.inGuild()) {
-            interaction.reply('This command can only be executed in a server.');
+            const errorEmbed = new EmbedBuilder()
+            .setTitle("An error occurred")
+            .setDescription("This command can only be executed in a guild.")
+            .setColor(0xf21b07);
+            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
             return;
         }
 
