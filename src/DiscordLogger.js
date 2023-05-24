@@ -11,6 +11,7 @@ async function Log(logChannel, embed) {
 }
 
 module.exports = {
-    Default,
+    Action,
+    Moderation,
     Log,
 }
