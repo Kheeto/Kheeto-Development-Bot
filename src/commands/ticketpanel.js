@@ -20,9 +20,6 @@ module.exports = {
             return;
         }
 
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator))
-            return await interaction.reply({ content: "You don't have the permission to use this command.", ephemeral: true });
-
         const button = new ActionRowBuilder()
         .addComponents(
             new ButtonBuilder()
