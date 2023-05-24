@@ -3,20 +3,25 @@ const logFilePath = "./logs/latest";
 require("colors");
 
 function Info(text) {
-    console.log(text.white);
+    Write(text.white);
     //writeFile(logFilePath, text+"\n");
 }
 function Success(text) {
-    console.log(text.brightGreen);
+    Write(text.brightGreen);
     //writeFile(logFilePath, text+"\n");
 }
 function Warning(text) {
-    console.log(text.yellow);
+    Write(text.yellow);
     //writeFile(logFilePath, text+"\n");
 }
 function Error(text) {
-    console.log(text.brightRed);
+    Write(text.brightRed);
     //writeFile(logFilePath, text+"\n");
+}
+function Write(text) {
+    const d = new Date();
+    var time = `[${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}]`
+    console.log(`${time} ${text}`);
 }
 
 exports.Info = Info;

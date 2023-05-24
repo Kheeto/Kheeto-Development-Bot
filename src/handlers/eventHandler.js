@@ -26,7 +26,7 @@ function loadEvents(client)
         table.addRow(file, "Loaded");
     }
 
-    Logger.Info(table.toString());
+    console.log(table.toString());
     Logger.Info("[SETUP] Finished registering event listeners");
 }
 

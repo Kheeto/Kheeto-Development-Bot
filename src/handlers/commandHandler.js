@@ -19,7 +19,7 @@ function loadCommands(client)
     }
 
     client.application.commands.set(commands);
-    Logger.Info(table.toString());
+    console.log(table.toString());
     Logger.Info("[SETUP] Finished registering slash commands");
 }
 
