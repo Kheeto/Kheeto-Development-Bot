@@ -1,8 +1,6 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { EmbedBuilder } = require("@discordjs/builders");
-const DiscordLogger = require("../DiscordLogger");
 const fs = require("fs");
-const { moderationLogEnabled, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
     name: 'warnings',
