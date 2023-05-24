@@ -16,8 +16,8 @@
 
     "verificationRoleId": "",
 
-    "moderationLogEnabled": false,
-    "moderationLogChannel": "",
+    "moderationLogEnabled": true,
+    "moderationLogChannel": "1110858924418150430",
     "moderationSendInBothChannels": false,
     "moderationLogPurge": true,
 

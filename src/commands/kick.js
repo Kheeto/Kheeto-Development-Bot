@@ -94,8 +94,8 @@ module.exports = {
             });
 
             if (moderationLogEnabled) {
-                const channel = interaction.guild.channels.fetch(moderationLogChannel);
-                await channel.send({ embeds: [ kickEmbed ] })
+                const logChannel = channel.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
+                await DiscordLogger.Log(logChannel, kickEmbed);
             }
             if (!moderationLogEnabled || moderationSendInBothChannels) {
                 await interaction.channel.send({ embeds: [kickEmbed] });

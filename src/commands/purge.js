@@ -53,8 +53,8 @@ module.exports = {
             .setThumbnail(interaction.member.displayAvatarURL())
             .setTimestamp();
 
-            const channel = interaction.guild.channels.fetch(moderationLogChannel);
-            await channel.send({ embeds: [ purgeLogEmbed ] })
+            const logChannel = channel.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
+            await DiscordLogger.Log(logChannel, purgeLogEmbed);
         }
     }
 }
