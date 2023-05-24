@@ -16,7 +16,7 @@ module.exports = {
         ]);
 
         // Send the log embed
-        const channel = sticker.guild.channels.cache.find(c => c.id == DiscordLogger.Default);
+        const channel = sticker.guild.channels.cache.find(c => c.id == DiscordLogger.Action);
         await DiscordLogger.Log(channel, logEmbed);
     }
 }

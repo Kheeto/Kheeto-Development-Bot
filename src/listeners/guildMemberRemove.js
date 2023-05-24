@@ -31,7 +31,7 @@ module.exports = {
                 { name: "Bot name", value: member.user.tag, inline: true }
             ])
 
-            const logChannel = member.guild.channels.cache.find(c => c.id == DiscordLogger.Default);
+            const logChannel = member.guild.channels.cache.find(c => c.id == DiscordLogger.Action);
             await DiscordLogger.Log(logChannel, botEmbed);
         }
     }
