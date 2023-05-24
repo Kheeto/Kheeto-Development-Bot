@@ -1,6 +1,7 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
 const Logger = require("../Logger");
+const DiscordLogger = require("../DiscordLogger");
 const { moderationLogEnabled, moderationLogChannel, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
@@ -86,6 +87,7 @@ module.exports = {
                     { name: "Moderator:", value: `\`${interaction.user.tag}\``, inline: true },
                     { name: "Reason:", value: `${reason}`, inline: false })
                 .setThumbnail(targetUser.displayAvatarURL())
+                .setColor(0xba2f16)
                 .setTimestamp();
 
             await interaction.editReply({
@@ -94,7 +96,7 @@ module.exports = {
             });
 
             if (moderationLogEnabled) {
-                const logChannel = channel.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
+                const logChannel = interaction.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
                 await DiscordLogger.Log(logChannel, banEmbed);
             }
             if (!moderationLogEnabled || moderationSendInBothChannels) {

@@ -1,5 +1,6 @@
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
+const DiscordLogger = require("../DiscordLogger");
 const { moderationLogEnabled, moderationLogChannel, moderationLogPurge } = require("../../config/config.json");
 
 module.exports = {
@@ -53,7 +54,7 @@ module.exports = {
             .setThumbnail(interaction.member.displayAvatarURL())
             .setTimestamp();
 
-            const logChannel = channel.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
+            const logChannel = interaction.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
             await DiscordLogger.Log(logChannel, purgeLogEmbed);
         }
     }

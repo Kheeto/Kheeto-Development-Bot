@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const fs = require("fs");
 const Logger = require("../Logger");
+const DiscordLogger = require("../DiscordLogger");
 const ms = require("ms");
 const { moderationLogEnabled, moderationLogChannel, moderationSendInBothChannels } = require("../../config/config.json");
 
@@ -112,7 +113,7 @@ module.exports = {
             .setTimestamp();
 
             if (moderationLogEnabled) {
-                const logChannel = channel.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
+                const logChannel = interaction.guild.channels.cache.find(c => c.id == DiscordLogger.Moderation);
                 await DiscordLogger.Log(logChannel, embed);
             }
             if (!moderationLogEnabled || moderationSendInBothChannels) {
