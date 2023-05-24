@@ -5,7 +5,7 @@ function handleErrors()
 {
     // Error handling (prevent the bot from crashing)
     process.on('unhandledRejection', async (reason, promise) => {
-        Logger.Error(`Unhandled rejection at: \"${promise}\", reason: \"${reason}\"`);
+        Logger.Error(`Unhandled rejection at: \"${JSON.stringify(promise)}\", reason: \"${reason}\"`);
     });
     process.on('uncaughtException', (err) => {
         Logger.Error(`Uncaught exception: \"${err}\"`);
