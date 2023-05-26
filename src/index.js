@@ -7,6 +7,7 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 const { handleErrors } = require("./handlers/errorHandler");
 const { loadCommands } = require("./handlers/commandHandler");
 const { loadEvents } = require("./handlers/eventHandler");
+const { handleGiveaways } = require("./handlers/giveawayHandler");
 
 const client = new Client({
     intents: [
@@ -15,7 +16,8 @@ const client = new Client({
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.GuildEmojisAndStickers
+        GatewayIntentBits.GuildEmojisAndStickers,
+        GatewayIntentBits.GuildMessageReactions
     ]
 });
 client.commands = new Collection();
@@ -27,6 +29,7 @@ async function main() {
         client.login(process.env.TOKEN).then(() => {
             loadEvents(client);
             loadCommands(client);
+            handleGiveaways(client);
         });
     } catch(err) { return Logger.Error("[ERROR] There was an issue while starting the bot: " + err )}
     Logger.Info("[SETUP] Successfully logged into Discord");
