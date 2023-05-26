@@ -10,7 +10,7 @@ It is a configurable multi-purpose bot with lots of features.
 The bot setup is simple:
 1. Download the source code
 2. Create a .env file in the main directory
-> You can get the bot token by creating an application on the [Developer Portal](https://discord.com/developers/applications)
+> You can get the bot token by creating an application on the [Discord Developer Portal](https://discord.com/developers/applications)
 3. Add a TOKEN variable with your bot token as the value   
 
 You will also need to install all of the necessary libraries, which are listed below.<br>
