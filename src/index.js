@@ -2,8 +2,6 @@ require("dotenv").config();
 const fs = require("fs");
 const Logger = require("./Logger");
 const { Client, GatewayIntentBits, Routes, Collection } = require("discord.js");
-const { REST } = require("@discordjs/rest");
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 const { handleErrors } = require("./handlers/errorHandler");
 const { loadCommands } = require("./handlers/commandHandler");
 const { loadEvents } = require("./handlers/eventHandler");

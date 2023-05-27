@@ -1,4 +1,6 @@
+const { Routes } = require("discord.js");
 const Logger = require("../Logger");
+const { REST } = require("@discordjs/rest");
 
 function loadCommands(client)
 {
@@ -6,21 +8,37 @@ function loadCommands(client)
     const fs = require('fs');
     const table = new ascii().setHeading("Command", "Status");
     
-    var commands = [];
+    client.commandArray = [];
 
     Logger.Info("[SETUP] Loading Commands");
     const commandFiles = fs.readdirSync('./src/commands').filter((file) => file.endsWith('.js'));
     for (const file of commandFiles)
     {
         const command = require(`../commands/${file}`);
-        client.commands.set(command.name, command);
-        commands.push(command);
-        table.addRow(file, "Loaded");
+        client.commands.set(command.data.name, command);
+        client.commandArray.push(command.data.toJSON());
+        table.addRow(file, "Ready");
     }
 
-    client.application.commands.set(commands);
     console.log(table.toString());
-    Logger.Info("[SETUP] Finished registering slash commands");
+    Logger.Info("[SETUP] All command files are ready");
+
+    const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+    (async () => {
+        try {
+            Logger.Info("[SETUP] Refreshing application commands");
+
+            await rest.put(
+                Routes.applicationCommands(process.env.CLIENT_ID), {
+                    body: client.commandArray
+                },
+            );
+
+            Logger.Info("[SETUP] Successfully reloaded application commands");
+        } catch (err) {
+            Logger.Error(err.stack);
+        }
+    })();
 }
 
 module.exports = { loadCommands };
