@@ -49,7 +49,7 @@ function loadCommands(client)
 
             Logger.Success("[SETUP] Successfully reloaded application commands");
         } catch (err) {
-            Logger.Error(err.stack);
+            Logger.Error("[ERROR] An error occured while refreshing application commands:\n"+err.stack);
         }
     })();
 }
