@@ -1,19 +1,14 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
-const { EmbedBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("@discordjs/builders");
 const fs = require("fs");
 
 module.exports = {
-    name: 'warnings',
-    description: 'Check how much warnings a member has.',
-    options: [
-    {
-        name: 'target',
-        description: 'The user you are checking the warnings of.',
-        type: ApplicationCommandOptionType.Mentionable,
-        required: true,
-    }
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
+    data: new SlashCommandBuilder()
+    .setName('warnings')
+    .setDescription('Check how much warnings the provided member has.')
+    .addMentionableOption(option =>
+        option.setName('target').setDescription('The user you are checking the warnings of.').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     /**
      * @param {Client} client
      * @param {Interaction} interaction

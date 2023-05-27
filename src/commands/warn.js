@@ -1,26 +1,18 @@
 const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
-const { EmbedBuilder } = require("@discordjs/builders");
+const { EmbedBuilder, SlashCommandBuilder } = require("@discordjs/builders");
 const DiscordLogger = require("../DiscordLogger");
 const fs = require("fs");
 const { moderationLogEnabled, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
-    name: 'warn',
-    description: 'Warn a member.',
-    options: [
-    {
-        name: 'target',
-        description: 'The user you are going to warn.',
-        type: ApplicationCommandOptionType.Mentionable,
-        required: true,
-    },
-    {
-        name: 'reason',
-        description: 'The reason you are warning this user.',
-        type: ApplicationCommandOptionType.String,
-    },
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
+    data: new SlashCommandBuilder()
+    .setName('warn')
+    .setDescription('Warn a member.')
+    .addMentionableOption(option =>
+        option.setName('target').setDescription('The user you are going to warn.'))
+    .addStringOption(option =>
+        option.setName('reason').setDescription('The reason you are warning this user.'))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     /**
      * @param {Client} client
      * @param {Interaction} interaction

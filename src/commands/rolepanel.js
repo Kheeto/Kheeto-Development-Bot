@@ -1,10 +1,11 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, SelectMenuBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, SelectMenuBuilder, SlashCommandBuilder } = require('@discordjs/builders');
 const { ButtonStyle, ChannelType, PermissionsBitField, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-    name: "rolepanel",
-    description: "Create a role selection panel in the current channel.",
-    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
+    data: new SlashCommandBuilder()
+    .setName('rolepanel')
+    .setDescription('Create a role selection panel in the current channel.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

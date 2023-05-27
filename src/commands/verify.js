@@ -2,8 +2,9 @@ const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-    name: "verify",
-    description: "Gives you the verified user role",
+    data: new SlashCommandBuilder()
+    .setName('verify')
+    .setDescription('Gives you the verified user role.'),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

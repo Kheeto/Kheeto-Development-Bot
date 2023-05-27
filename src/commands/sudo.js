@@ -1,26 +1,17 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require("@discordjs/builders");
 const Logger = require("../Logger");
 const DiscordLogger = require("../DiscordLogger");
 
 module.exports = {
-    name: 'sudo',
-    description: 'Write a message as another member.',
-    options: [
-    {
-        name: 'target',
-        description: 'The member you are going to impersonate.',
-        type: ApplicationCommandOptionType.Mentionable,
-        required: true,
-    },
-    {
-        name: 'message',
-        description: 'The message you are going to send.',
-        type: ApplicationCommandOptionType.String,
-        required: true,
-    },
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
+    data: new SlashCommandBuilder()
+    .setName('sudo')
+    .setDescription('Write a message as another member.')
+    .addMentionableOption(option =>
+        option.setName('target').setDescription('The member you are going to impersonate.').setRequired(true))
+    .addStringOption(option =>
+        option.setName('message').setDescription('The message you are going to send.').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     /**
      * @param {Client} client
      * @param {Interaction} interaction

@@ -1,21 +1,16 @@
-const { EmbedBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, SlashCommandBuilder } = require('@discordjs/builders');
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const Logger = require("../Logger");
 
 module.exports = {
-    name: "embed",
-    description: "Loads an embed from a JSON file and sends it in the current channel",
-    options: [
-        {
-            name: "name",
-            description: "The name of the embed JSON file (including .json)",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-        }
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
+    data: new SlashCommandBuilder()
+    .setName('embed')
+    .setDescription('Loads an embed from a JSON file and sends it in the current channel')
+    .addStringOption(option =>
+        option.setName('name').setDescription('The name of the embed JSON file (including .json)').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

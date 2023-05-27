@@ -1,19 +1,14 @@
-const { EmbedBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, SlashCommandBuilder } = require('@discordjs/builders');
 const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
 const Logger = require("../Logger");
 
 module.exports = {
-    name: "slowmode",
-    description: "Sets the slowmode of the current channel",
-    options: [
-        {
-            name: "cooldown",
-            description: "The time of the slowmode",
-            type: ApplicationCommandOptionType.Integer,
-            required: true,
-        }
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ManageChannels],
+    data: new SlashCommandBuilder()
+    .setName('slowmode')
+    .setDescription('Sets the slowmode of the current channel.')
+    .addIntegerOption(option =>
+        option.setName('cooldown').setDescription('The new slowmode time').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

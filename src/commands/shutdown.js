@@ -4,9 +4,10 @@ const Logger = require("../Logger");
 const { enableShutdownCommand } = require("../../config/config.json");
 
 module.exports = {
-    name: "shutdown",
-    description: "Shuts down the bot",
-    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
+    data: new SlashCommandBuilder()
+    .setName('shutdown')
+    .setDescription('Shuts the bot down.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

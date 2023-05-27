@@ -7,29 +7,16 @@ const ms = require("ms");
 const { moderationLogEnabled, moderationLogChannel, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
-    name: "timeout",
-    description: "Timeout the specified user for a certain amount of time",
-    options: [
-        {
-            name: "user",
-            description: "The user you are timing out",
-            type: ApplicationCommandOptionType.Mentionable,
-            required: true,
-        },
-        {
-            name: "duration",
-            description: "How long it will last (Format example: 5d 2h)",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-        },
-        {
-            name: "reason",
-            description: "Why you are timing out this user",
-            type: ApplicationCommandOptionType.String,
-            required: false,
-        }
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
+    data: new SlashCommandBuilder()
+    .setName('timeout')
+    .setDescription('Timeout the specified user for a certian amount of time.')
+    .addMentionableOption(option =>
+        option.setName('target').setDescription('The user you are timing out.').setRequired(true))
+    .addStringOption(option =>
+        option.setName('duration').setDescription('How long the timeout will last (Format example: 5d 2h)').setRequired(true))
+    .addStringOption(option =>
+        option.setName('reason').setDescription('The reason you are timing out this user.'))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
@@ -45,7 +32,7 @@ module.exports = {
             return;
         }
 
-        const user = interaction.options.get("user").value;
+        const user = interaction.options.get("target").value;
         var duration = interaction.options.get("duration").value;
         const reason = interaction.options.get("reason")?.value || "No reason provided.";
 

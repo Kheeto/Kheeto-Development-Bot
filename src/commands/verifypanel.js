@@ -1,10 +1,11 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder } = require('@discordjs/builders');
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, SlashCommandBuilder } = require('@discordjs/builders');
 const { ButtonStyle, ChannelType, PermissionsBitField, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
-    name: "verifypanel",
-    description: "Create a new verification panel in the current channel.",
-    defaultMemberPermissions: [PermissionFlagsBits.ManageGuild],
+    data: new SlashCommandBuilder()
+    .setName('verifypanel')
+    .setDescription('Create a new verification panel in the current channel.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

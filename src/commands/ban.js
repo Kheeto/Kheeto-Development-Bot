@@ -1,26 +1,18 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
 const Logger = require("../Logger");
 const DiscordLogger = require("../DiscordLogger");
 const { moderationLogEnabled, moderationLogChannel, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
-    name: 'ban',
-    description: 'Ban a member from this server.',
-    options: [
-    {
-        name: 'target',
-        description: 'The user you are going to ban.',
-        type: ApplicationCommandOptionType.Mentionable,
-        required: true,
-    },
-    {
-        name: 'reason',
-        description: 'The reason you are banning this user.',
-        type: ApplicationCommandOptionType.String,
-    },
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.BanMembers],
+    data: new SlashCommandBuilder()
+        .setName('ban')
+        .setDescription('Ban a member from this server')
+        .addMentionableOption(option =>
+            option.setName('target').setDescription('The user you are going to ban').setRequired(true))
+        .addStringOption(option =>
+            option.setName('reason').setDescription('The reason you are banning this user.'))
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
     /**
      * @param {Client} client
      * @param {Interaction} interaction

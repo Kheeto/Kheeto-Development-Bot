@@ -1,20 +1,15 @@
-const { ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { ApplicationCommandOptionType, PermissionFlagsBits, SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
 const DiscordLogger = require("../DiscordLogger");
 const { moderationLogEnabled, moderationLogChannel, moderationLogPurge } = require("../../config/config.json");
 
 module.exports = {
-    name: "purge",
-    description: "Delete the provided amount of messages",
-    options: [
-        {
-            name: "amount",
-            description: "The amount of messages to delete",
-            type: ApplicationCommandOptionType.Integer,
-            required: true,
-        }
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ManageMessages],
+    data: new SlashCommandBuilder()
+    .setName('purge')
+    .setDescription('Delete the provided amount of messages')
+    .addIntegerOption(option =>
+        option.setName('amount').setDescription('The amount of messages to delete').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

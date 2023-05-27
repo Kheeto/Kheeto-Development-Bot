@@ -1,18 +1,13 @@
-const { ApplicationCommandOptionType, PermissionFlagsBits, PermissionsBitField } = require('discord.js');
+const { ApplicationCommandOptionType, PermissionFlagsBits, PermissionsBitField, SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: "say",
-    description: "The bot will write a message with the content you provided",
-    options: [
-        {
-            name: "message",
-            description: "The message the bot will send",
-            type: ApplicationCommandOptionType.String,
-            required: true,
-        }
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
+    data: new SlashCommandBuilder()
+    .setName('say')
+    .setDescription('Write a message with the provided content.')
+    .addStringOption(option =>
+        option.setName('message').setDescription('The message the bot will send.').setRequired(true))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

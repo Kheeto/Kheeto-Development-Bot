@@ -5,8 +5,9 @@ const Logger = require("../Logger");
 const ms = require("ms");
 
 module.exports = {
-    name: "ping",
-    description: "Returns the bot latency in ms",
+    data: new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('Returns the bot latency in ms'),
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction

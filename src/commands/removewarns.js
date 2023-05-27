@@ -1,32 +1,20 @@
-const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits } = require('discord.js');
+const { Client, Interaction, ApplicationCommandOptionType, PermissionFlagsBits, SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require("@discordjs/builders");
 const DiscordLogger = require("../DiscordLogger");
 const fs = require("fs");
 const { moderationLogEnabled, moderationSendInBothChannels } = require("../../config/config.json");
 
 module.exports = {
-    name: 'removewarns',
-    description: 'Revoke warnings from a member.',
-    options: [
-    {
-        name: 'target',
-        description: 'The user you are removing warnings from.',
-        type: ApplicationCommandOptionType.Mentionable,
-        required: true,
-    },
-    {
-        name: 'amount',
-        description: 'The amount of warnings to remove.',
-        type: ApplicationCommandOptionType.Integer,
-        required: true
-    },
-    {
-        name: 'reason',
-        description: 'The reason you are removing these warnings.',
-        type: ApplicationCommandOptionType.String
-    },
-    ],
-    defaultMemberPermissions: [PermissionFlagsBits.ModerateMembers],
+    data: new SlashCommandBuilder()
+    .setName('removewarns')
+    .setDescription('Revoke warnings from a member.')
+    .addMentionableOption(option =>
+        option.setName('target').setDescription('The user you are removing warnings from.').setRequired(true))
+    .addIntegerOption(option =>
+        option.setName('amount').setDescription('The amount of warnings to remove'))
+    .addStringOption(option =>
+        option.setName('reason').setDescription('The reason you are removing these warnings.'))
+    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers),
     /**
      * @param {Client} client
      * @param {Interaction} interaction

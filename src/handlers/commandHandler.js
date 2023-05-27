@@ -1,6 +1,7 @@
 const { Routes } = require("discord.js");
 const Logger = require("../Logger");
 const { REST } = require("@discordjs/rest");
+require("colors");
 
 function loadCommands(client)
 {
@@ -14,10 +15,22 @@ function loadCommands(client)
     const commandFiles = fs.readdirSync('./src/commands').filter((file) => file.endsWith('.js'));
     for (const file of commandFiles)
     {
-        const command = require(`../commands/${file}`);
-        client.commands.set(command.data.name, command);
-        client.commandArray.push(command.data.toJSON());
-        table.addRow(file, "Ready");
+        try {
+            Logger.Info(`[SETUP] Loading command file ${file}`);
+            const command = require(`../commands/${file}`);
+            client.commands.set(command.data.name, command);
+            client.commandArray.push(command.data.toJSON());
+            if ('data' in command && 'execute' in command) {
+                client.commands.set(command.data.name, command);
+                table.addRow(file, "Ready".green);
+            } else {
+                Logger.Warning(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+                table.addRow(file, "Invalid data".red);
+            }
+        } catch (err) {
+            table.addRow(file, "Couldn't load".red);
+            Logger.Error(err.stack);
+        }
     }
 
     console.log(table.toString());
