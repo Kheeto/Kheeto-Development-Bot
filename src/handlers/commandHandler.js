@@ -16,19 +16,19 @@ function loadCommands(client)
     for (const file of commandFiles)
     {
         try {
-            Logger.Info(`[SETUP] Loading command file ${file}`);
             const command = require(`../commands/${file}`);
             client.commands.set(command.data.name, command);
             client.commandArray.push(command.data.toJSON());
             if ('data' in command && 'execute' in command) {
                 client.commands.set(command.data.name, command);
-                table.addRow(file, "Ready".green);
+                table.addRow(file, "Ready");
             } else {
-                Logger.Warning(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-                table.addRow(file, "Invalid data".red);
+                Logger.Warning(`[WARNING] The command ${file} is missing a required "data" or "execute" property.`);
+                table.addRow(file, "Invalid data");
             }
         } catch (err) {
-            table.addRow(file, "Couldn't load".red);
+            table.addRow(file, "Couldn't load");
+            Logger.Error(`[ERROR] Couldn't load command ${file}`);
             Logger.Error(err.stack);
         }
     }
@@ -47,7 +47,7 @@ function loadCommands(client)
                 },
             );
 
-            Logger.Info("[SETUP] Successfully reloaded application commands");
+            Logger.Success("[SETUP] Successfully reloaded application commands");
         } catch (err) {
             Logger.Error(err.stack);
         }

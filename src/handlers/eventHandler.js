@@ -10,20 +10,26 @@ function loadEvents(client)
     const eventFiles = fs.readdirSync('./src/listeners').filter((file) => file.endsWith('.js'));
     for (const file of eventFiles)
     {
-        const event = require(`../listeners/${file}`);
+        try {
+            const event = require(`../listeners/${file}`);
 
-        if (event.rest) {
-            if (event.once)
-                client.rest.once(event.name, (...args) => event.execute(...args, client));
-            else
-                client.rest.on(event.name, (...args) => event.execute(...args, client));
-        } else {
-            if (event.once)
-                client.once(event.name, (...args) => event.execute(...args, client));
-            else
-                client.on(event.name, (...args) => event.execute(...args, client));
+            if (event.rest) {
+                if (event.once)
+                    client.rest.once(event.name, (...args) => event.execute(...args, client));
+                else
+                    client.rest.on(event.name, (...args) => event.execute(...args, client));
+            } else {
+                if (event.once)
+                    client.once(event.name, (...args) => event.execute(...args, client));
+                else
+                    client.on(event.name, (...args) => event.execute(...args, client));
+            }
+            table.addRow(file, "Active");
+        } catch (err) {
+            table.addRow(file, "Couldn't load");
+            Logger.Error(`[ERROR] Couldn't load command ${file}`);
+            Logger.Error(err.stack);
         }
-        table.addRow(file, "Loaded");
     }
 
     console.log(table.toString());
